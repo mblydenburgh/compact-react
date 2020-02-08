@@ -1,19 +1,24 @@
 {
   "name": "liberty-react-app",
-  "version": "1.0.0",
-  "description": "",
+  "version": "1.1.0",
+  "description": "CLI tool used to quickly create a minimalist React project",
   "main": "./bin/liberty-react-app.js",
   "bin": {
-    "liberty-react-app":"./bin/liberty-react-app.js"
+    "liberty-react-app": "./bin/liberty-react-app.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node ."
   },
-  "keywords": [],
+  "keywords": [
+    "react",
+    "create-react-app",
+    "webpack"
+  ],
   "author": "mblydenburgh",
   "license": "ISC",
   "dependencies": {
+    "chalk": "^3.0.0",
     "download-git-repo": "^3.0.2"
   }
 }
