@@ -1,17 +1,17 @@
 {
-  "name": "tiny-react-app",
+  "name": "liberty-react-app",
   "version": "1.0.0",
   "description": "",
-  "main": "./bin/tiny-react-app.js",
+  "main": "./bin/liberty-react-app.js",
   "bin": {
-    "tiny-react-app":"./bin/tiny-react-app.js"
+    "liberty-react-app":"./bin/liberty-react-app.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node ."
   },
   "keywords": [],
-  "author": "",
+  "author": "mblydenburgh",
   "license": "ISC",
   "dependencies": {
     "download-git-repo": "^3.0.2"
