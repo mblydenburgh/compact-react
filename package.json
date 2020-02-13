@@ -1,10 +1,10 @@
 {
-  "name": "liberty-react-app",
-  "version": "1.1.0",
+  "name": "compact-react",
+  "version": "1.0.1",
   "description": "CLI tool used to quickly create a minimalist React project",
-  "main": "./bin/liberty-react-app.js",
+  "main": "bin/compact-react.js",
   "bin": {
-    "liberty-react-app": "./bin/liberty-react-app.js"
+    "compact-react": "./bin/compact-react.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
