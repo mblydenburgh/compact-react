@@ -57,6 +57,7 @@ const main = async () => {
     fs.writeFileSync(packageJsonPath, JSON.stringify(newPackageJson), "utf-8")
     console.log(chalk.yellow("Updates to package.json complete."))
 
+    // Ask questions to customize packages and configuration
     await customizeBuild(projectPath)
 
     console.log(chalk.bgYellow(chalk.black("*****************************")))
@@ -135,7 +136,7 @@ async function customizeBuild(projectPath) {
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
-  entry: './src/index.js',
+  entry: './src/index.tsx',
   resolve: {
     extensions: ['.ts', '.tsx', '.js']
   },
@@ -163,9 +164,22 @@ module.exports = {
 
     fs.writeFileSync(path.join(projectPath, "webpack.config.js"), tsConfig)
 
-    const indexFilePath = path.join(projectPath,"src")
-    fs.rename(path.join(indexFilePath,"index.js"),path.join(indexFilePath,"index.tsx"), err => console.log(`Error renaming index.js to .tsx: ${err}`))
+    // Replace index.js with index.tsx
+    const indexFilePath = path.join(projectPath, "src")
+    const indexTsx = `import * as React from 'react'
+import * as ReactDOM from 'react-dom'
 
+function App() {
+  return (
+    <h1>Hello!</h1>
+  )
+}
+
+ReactDOM.render(<App/>, document.querySelector("#app"));
+    `
+
+    fs.unlinkSync(path.join(indexFilePath, "index.js"))
+    fs.writeFileSync(path.join(indexFilePath, "index.tsx"), indexTsx)
   }
 }
 
