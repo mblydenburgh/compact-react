@@ -14,7 +14,7 @@ let projectName = "";
 const args = process.argv.slice(2)
 if (args.length > 1) {
   console.log(`${ chalk.red("Please only enter 1 argument for project name") }`)
-} else if(!args.length < 1) {
+} else if (!args.length < 1) {
   projectName = args[0].trim()
   console.log(chalk.yellow(`*** Creating a tiny project by the name of: ${ projectName } ***`))
 }
@@ -69,40 +69,39 @@ const main = async () => {
 }
 
 async function customizeBuild(projectPath) {
+  const packageJsonPath = path.join(projectPath, "package.json")
+  let rawPackageJson
+  let newPackageJson
+  let rawDependencies
+  let rawDevDependencies
+  let newDependencies
+  let newDevDependencies
+
   const typescript = await prompt("Do you want to use Typescript? (y/n) ")
   if (typescript.toString().toLowerCase() === "y") {
     // Update package.json dependencies for Typescript
-    const packageJsonPath = path.join(projectPath, "package.json")
-    const rawPackageJson = JSON.parse(fs.readFileSync(packageJsonPath, "utf-8"))
-    const newPackageJson = {
+    rawPackageJson = JSON.parse(fs.readFileSync(packageJsonPath, "utf-8"))
+    rawDependencies = rawPackageJson.dependencies
+    newDependencies = {
+      ...rawDependencies,
+      "@types/react": "16.9.19",
+      "@types/react-dom": "16.9.5"
+    }
+    rawDevDependencies = rawPackageJson.devDependencies
+    newDevDependencies = {
+      ...rawDevDependencies,
+      "typescript": "^3.7.5",
+      "awesome-typescript-loader": "^5.2.1"
+    }
+
+    newPackageJson = {
       ...rawPackageJson,
       scripts: {
         "start": "webpack-dev-server --mode development --open --hot",
         "build": "webpack --mode production"
       },
-      dependencies: {
-        "react": "^16.12.0",
-        "react-dom": "^16.12.0",
-        "@types/react": "16.9.19",
-        "@types/react-dom": "16.9.5"
-      },
-      devDependencies: {
-        "@babel/core": "^7.7.4",
-        "@babel/plugin-proposal-class-properties": "^7.7.4",
-        "@babel/preset-env": "^7.7.4",
-        "@babel/preset-react": "^7.7.4",
-        "babel-loader": "^8.0.6",
-        "eslint-plugin-react-hooks": "^2.3.0",
-        "html-webpack-plugin": "^3.2.0",
-        "webpack": "^4.41.2",
-        "webpack-cli": "^3.3.10",
-        "webpack-dev-server": "^3.9.0",
-        "css-loader": "^3.2.1",
-        "style-loader": "^1.0.1",
-        "file-loader": "^5.0.2",
-        "typescript": "^3.7.5",
-        "awesome-typescript-loader": "^5.2.1"
-      }
+      dependencies: newDependencies,
+      devDependencies: newDevDependencies
     }
     fs.writeFileSync(packageJsonPath, JSON.stringify(newPackageJson), "utf-8")
 
@@ -181,6 +180,34 @@ ReactDOM.render(<App/>, document.querySelector("#app"));
 
     fs.unlinkSync(path.join(indexFilePath, "index.js"))
     fs.writeFileSync(path.join(indexFilePath, "index.tsx"), indexTsx)
+  }
+
+  const graphQL = await prompt("Would you like to use GraphQL? (y/n) ")
+  if (graphQL.toString().toLowerCase() === "y") {
+    rawPackageJson = JSON.parse(fs.readFileSync(packageJsonPath, "utf-8"))
+    rawDependencies = rawPackageJson.dependencies
+    rawDevDependencies = rawPackageJson.devDependencies
+
+    newDependencies = {
+      ...rawDependencies,
+      "@apollo/react-hooks": "^3.1.3",
+      "apollo-boost": "^0.4.4",
+      "apollo-client": "^2.6.4",
+      "apollo-link-context": "^1.0.19",
+      "graphql": "^14.5.8",
+      "graphql-tag": "^2.10.1",
+    }
+    newDevDependencies = {
+      ...rawDevDependencies,
+      "eslint-plugin-react-hooks": "^2.3.0",
+      "regenerator-runtime": "^0.13.3",
+    }
+    newPackageJson = {
+      ...rawPackageJson,
+      dependencies: newDependencies,
+      devDependencies: newDevDependencies
+    }
+    fs.writeFileSync(packageJsonPath, JSON.stringify(newPackageJson), "utf-8")
   }
 }
 
