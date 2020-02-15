@@ -20,7 +20,7 @@ if (args.length > 1) {
 }
 
 const main = async () => {
-  console.log(chalk.yellow("Welcome to libery-react-app"))
+  console.log(chalk.yellow("Welcome to compact-react"))
   // Ensure main is run with a project name specified
   if (!projectName) {
     console.log(chalk.red("Please specify a project name as the 2nd command line argument"))
