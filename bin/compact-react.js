@@ -79,6 +79,10 @@ async function customizeBuild(projectPath) {
     const rawPackageJson = JSON.parse(fs.readFileSync(packageJsonPath, "utf-8"))
     const newPackageJson = {
       ...rawPackageJson,
+      scripts: {
+        "start": "webpack-dev-server --mode development --open --hot",
+        "build": "webpack --mode production"
+      },
       dependencies: {
         "react": "^16.12.0",
         "react-dom": "^16.12.0",
