@@ -8,22 +8,22 @@ const chalk = require("chalk")
 const download = require("download-git-repo")
 
 const github = util.promisify(download)
-let projectName;
+let projectName = "";
 
 // Get runtime arguments
 const args = process.argv.slice(2)
 if (args.length > 1) {
   console.log(`${ chalk.red("Please only enter 1 argument for project name") }`)
-} else {
+} else if(!args.length < 1) {
   projectName = args[0].trim()
+  console.log(chalk.yellow(`*** Creating a tiny project by the name of: ${ projectName } ***`))
 }
-console.log(`*** Creating a tiny project by the name of: ${ projectName } ***`)
 
 const main = async () => {
-  console.log(chalk.bgYellow(chalk.black("Welcome to libery-react-app")))
+  console.log(chalk.yellow("Welcome to libery-react-app"))
   // Ensure main is run with a project name specified
   if (!projectName) {
-    console.log(chalk.bgRed("Please specify a project name as the 2nd command line argument"))
+    console.log(chalk.red("Please specify a project name as the 2nd command line argument"))
     return
   }
   // Create project path by joining current working directory and given project name
@@ -35,7 +35,6 @@ const main = async () => {
   if (doesFolderExist) {
     console.log(chalk.red(`Folder with a name of ${ projectName } already found`))
   } else {
-    console.log(chalk.yellow(`Folder not found, creating`))
     fs.mkdirSync(projectPath, { recursive: true })
     console.log(chalk.yellow(`Folder created`))
   }
@@ -47,7 +46,6 @@ const main = async () => {
   // Update downloaded project's package.json to match provided project name
   try {
     const packageJsonPath = path.join(projectPath, "package.json")
-    console.log(chalk.yellow(`package.json path: ${ packageJsonPath }`))
     const rawPackageJson = JSON.parse(fs.readFileSync(packageJsonPath, "utf-8"))
     const newPackageJson = {
       ...rawPackageJson,
@@ -55,17 +53,16 @@ const main = async () => {
       description: ""
     }
     fs.writeFileSync(packageJsonPath, JSON.stringify(newPackageJson), "utf-8")
-    console.log(chalk.yellow("Updates to package.json complete."))
 
     // Ask questions to customize packages and configuration
     await customizeBuild(projectPath)
 
-    console.log(chalk.bgYellow(chalk.black("*****************************")))
-    console.log(chalk.bgYellow(chalk.black("*** SUCCESS! Happy Coding ***")))
-    console.log(chalk.bgYellow(chalk.black("*****************************")))
+    console.log(chalk.yellow("*****************************"))
+    console.log(chalk.yellow("*** SUCCESS! Happy Coding ***"))
+    console.log(chalk.yellow("*****************************"))
     process.exit(0)
   } catch (exception) {
-    console.log(chalk.bgRed("Error updating package.json"))
+    console.log(chalk.red("Error updating package.json"))
     console.log(exception)
   }
 
@@ -190,7 +187,7 @@ ReactDOM.render(<App/>, document.querySelector("#app"));
 function prompt(question) {
   return new Promise((resolve, reject) => {
     stdin.resume();
-    stdout.write(question);
+    stdout.write(chalk.yellow(question));
 
     stdin.on('data', data => resolve(data.toString().trim()));
     stdin.on('error', err => reject(err));
