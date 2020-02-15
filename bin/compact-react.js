@@ -184,6 +184,7 @@ ReactDOM.render(<App/>, document.querySelector("#app"));
 
   const graphQL = await prompt("Would you like to use GraphQL? (y/n) ")
   if (graphQL.toString().toLowerCase() === "y") {
+    // Update package.json with GraphQL and Apollo dependencies
     rawPackageJson = JSON.parse(fs.readFileSync(packageJsonPath, "utf-8"))
     rawDependencies = rawPackageJson.dependencies
     rawDevDependencies = rawPackageJson.devDependencies
@@ -208,6 +209,24 @@ ReactDOM.render(<App/>, document.querySelector("#app"));
       devDependencies: newDevDependencies
     }
     fs.writeFileSync(packageJsonPath, JSON.stringify(newPackageJson), "utf-8")
+
+    // Create GraphQL config file
+    const graphQLConfig = {
+      "name": "Untitled GraphQL Schema",
+      "schemaPath": "schema.graphql",
+      "extensions": {
+        "endpoints": {
+          "Default GraphQL Endpoint": {
+            "url": "",
+            "headers": {
+              "user-agent": "JS GraphQL"
+            },
+            "introspect": true
+          }
+        }
+      }
+    }
+    fs.writeFileSync(path.join(projectPath,".graphqlconfig"),JSON.stringify(graphQLConfig),"utf-8")
   }
 }
 

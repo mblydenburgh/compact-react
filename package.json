@@ -1,6 +1,6 @@
 {
   "name": "compact-react",
-  "version": "1.2.0",
+  "version": "1.2.2",
   "description": "CLI tool used to quickly create a minimalist React project",
   "main": "bin/compact-react.js",
   "bin": {

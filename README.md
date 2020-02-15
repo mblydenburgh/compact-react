@@ -8,9 +8,13 @@ To start using, first install by running `npm i -g compact-react`. Once installe
 start creating a new project by running `compact-react [insert project name]` from
 a terminal window.
 
-Currently, the only customization is choosing a Javascript or Typescript configuration. This
-is decided in the terminal after creating an initial project. The base `tsconfig.json` used has
-the following contents:
+Currently, the two customization options - 
+1. Choosing a Javascript or Typescript configuration. 
+2. Choosing to add GraphQL & Apollo Client dependencies
+
+This is decided in the terminal after creating an initial project. 
+
+If Typescript is used, the base `tsconfig.json` has the following contents:
 ```$xslt
 {
   "compilerOptions": {
@@ -36,3 +40,22 @@ the following contents:
   }
 }
 ``` 
+
+If GraphQL is used, the base `.graphqlconfig` has the following contents:
+```$xslt
+{
+  "name": "Untitled GraphQL Schema",
+  "schemaPath": "schema.graphql",
+  "extensions": {
+    "endpoints": {
+      "Default GraphQL Endpoint": {
+        "url": "",
+        "headers": {
+          "user-agent": "JS GraphQL"
+        },
+        "introspect": true
+      }
+    }
+  }
+}
+```
